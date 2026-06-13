@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) with consent -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYJRPRS3TW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    // Set default consent state
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied'
+    });
+
+    gtag('js', new Date());
+    gtag('config', 'G-MYJRPRS3TW');
+  </script>
+  <meta charset="utf-8">
+  <title>SGERG Calculator</title>
+  <link rel="canonical" href="https://gas-flows.com/sgerg.html">
+  <meta name="description" content="SGERG compressibility factor calculator for natural gas.">
+  <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="36x36" href="icons/android-icon-36x36.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="icons/android-icon-48x48.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="common.css">
+  <script src="js/lang.js"></script>
+  <script src="js/sgerg.js"></script>
+</head>
+
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Flow Calculator</a></li>
+      <li><a href="pressures.html">Units Converter</a></li>
+      <li><a href="aga8.html">AGA8 Z-Factor</a></li>
+      <li><a href="sgerg.html" class="active">SGERG</a></li>
+      <li><a href="AGA8Flow.html">AGA8 Flow</a></li>
+      <li><a href="simulator.html">Gas Simulator</a></li>
+      <li><a href="contacts.html">Contacts</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h2>SGERG-88 Compressibility Factor Calculator</h2>
+
+    <div class="field-group">
+      <label for="temperature">Temperature (°C):</label>
+      <input type="number" id="temperature" value="20" step="1">
+      <span>Gas temperature</span>
+    </div>
+
+    <div class="field-group">
+      <label for="pressure">Pressure (barA):</label>
+      <input type="number" id="pressure" value="50" step="1">
+      <span>Operating pressure</span>
+    </div>
+
+    <div class="field-group">
+      <label for="Hs">Superior calorific value H&#x209B; (kWh/m³):</label>
+      <input type="number" id="Hs" value="10.55" step="0.01">
+      <span>Calorific value at standard conditions (0 °C, 1.01325 bar)</span>
+    </div>
+
+    <div class="field-group">
+      <label for="rhoN">Density at standard conditions (kg/m³):</label>
+      <input type="number" id="rhoN" value="0.760" step="0.001">
+      <span>Gas density at standard conditions (0 °C, 1.01325 bar)</span>
+    </div>
+
+    <div class="field-group">
+      <label for="xH2">H₂ content (mol/mol):</label>
+      <input type="number" id="xH2" value="0.0" step="0.001" min="0" max="1">
+      <span>Hydrogen mole fraction</span>
+    </div>
+
+    <div class="field-group">
+      <label for="xCO2">CO₂ content (mol/mol):</label>
+      <input type="number" id="xCO2" value="0.006" step="0.001" min="0" max="1">
+      <span>Carbon dioxide mole fraction</span>
+    </div>
+
+    <h2>Results</h2>
+
+    <div class="field-group">
+      <label for="zResult">Z-Factor:</label>
+      <input type="text" id="zResult" readonly>
+      <span>Compressibility factor</span>
+    </div>
+
+    <div class="field-group">
+      <label for="kResult">Gas Law Deviation Factor (K):</label>
+      <input type="text" id="kResult" readonly>
+      <span>K = Z / Zₙ (Zₙ at German standard conditions: 0 °C, 1.01325 bar)</span>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="field-group">
+      <p><strong>SGERG-88 Details</strong><br>
+      SGERG-88 (Simplified GERG) is a simplified equation of state for computing the compressibility factor (Z-factor)
+      of natural gas from four measurable bulk parameters: superior calorific value (H&#x209B;), relative density,
+      hydrogen content, and carbon dioxide content. Unlike the full AGA8 method, it requires no detailed gas
+      chromatographic composition analysis, making it practical for routine billing and custody transfer.<br><br>
+
+      In Germany, SGERG-88 is the basis for the billing compressibility factor (Abrechnungszustandszahl K)
+      defined in DVGW Arbeitsblatt G&nbsp;685.<br><br>
+
+      <strong>SGERG-88 Application Restrictions:</strong><br>
+      Pressure: 0 MPa to 12 MPa (0 to 120 bar)<br>
+      Temperature: 263 K to 338 K (&#x2212;10&nbsp;°C to 65&nbsp;°C)<br>
+      Superior Calorific Value: 30 MJ/m³ to 45 MJ/m³ (&#x2248;&nbsp;8.3 to 12.5 kWh/m³)<br>
+      Relative Density: 0.55 to 0.80<br>
+      H&#x2082; content: 0 to 0.10 mol/mol<br>
+      CO&#x2082; content: 0 to 0.20 mol/mol<br><br>
+
+      <strong>SGERG-88 References:</strong><br>
+      <a href="https://www.iso.org/standard/44412.html" target="_blank" class="modern-link">ISO 12213-3:1997 Natural gas — Calculation of compression factor — Part 3 (paid)</a><br>
+      <a href="https://www.dvgw-regelwerk.de/technische-regel/arbeitsblatt-g-685-6/4e710c" target="_blank" class="modern-link">DVGW Arbeitsblatt G 685-6 — Abrechnungsbrennwert und Abrechnungszustandszahl</a><br>
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <label>Validation Results:</label>
+    <pre id="validationResults" style="background:#f9f9f9;padding:10px;border:1px solid #ccc;max-height:120px;overflow:auto;"></pre>
+  </div>
+
+  <script>
+  // RL = air density at 0 °C, 1.01325 bar [kg/m³]  (from sgerg.js BLOCK DATA)
+  const RL_AIR = 1.292923;
+
+  function calculateSGERG() {
+    const TC    = parseFloat(document.getElementById('temperature').value);
+    const P     = parseFloat(document.getElementById('pressure').value);
+    const Hs_kWh = parseFloat(document.getElementById('Hs').value);
+    const rhoN  = parseFloat(document.getElementById('rhoN').value);
+    const X5    = parseFloat(document.getElementById('xH2').value)  || 0;
+    const X3    = parseFloat(document.getElementById('xCO2').value) || 0;
+
+    const zField = document.getElementById('zResult');
+    const kField = document.getElementById('kResult');
+
+    // Unit conversion: kWh/m³ → MJ/m³  (1 kWh = 3.6 MJ)
+    const HS = Hs_kWh * 3.6;
+    // Relative density = gas density / air density at same reference conditions
+    const RM = rhoN / RL_AIR;
+
+    try {
+      const { Z } = sgerg(X3, HS, RM, X5, P, TC);
+      zField.value = Z.toFixed(5);
+
+      // K = Z / Zₙ  (Zₙ at German standard conditions: 0 °C, 1.01325 bar)
+      const { Z: Znorm } = sgerg(X3, HS, RM, X5, 1.01325, 0.0);
+      kField.value = (Z / Znorm).toFixed(5);
+    } catch (err) {
+      zField.value = `Error: ${err.message} ❌`;
+      kField.value = '';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    calculateSGERG();
+    document.querySelectorAll('#temperature, #pressure, #Hs, #rhoN, #xH2, #xCO2')
+      .forEach(el => el.addEventListener('input', calculateSGERG));
+  });
+
+  /* --- ISO 12213-3 Annex B – six reference gas mixtures -------------------- */
+  /* HS in MJ/m³, RM = relative density (dimensionless)                       */
+  const gasParams = [
+    { xCO2: 0.006, xH2: 0.000, RM: 0.581, HS: 40.66 },  // Gas 1
+    { xCO2: 0.005, xH2: 0.000, RM: 0.609, HS: 40.62 },  // Gas 2
+    { xCO2: 0.015, xH2: 0.000, RM: 0.650, HS: 43.53 },  // Gas 3
+    { xCO2: 0.016, xH2: 0.095, RM: 0.599, HS: 34.16 },  // Gas 4
+    { xCO2: 0.076, xH2: 0.000, RM: 0.686, HS: 36.64 },  // Gas 5
+    { xCO2: 0.011, xH2: 0.000, RM: 0.644, HS: 36.58 },  // Gas 6
+  ];
+
+  const testCasesSGERG = [
+    { pBar: 60,  tC:  -3.15, expected: [0.84084, 0.83348, 0.79415, 0.88569, 0.82664, 0.85406] },
+    { pBar: 60,  tC:   6.85, expected: [0.86202, 0.85615, 0.82210, 0.90150, 0.85017, 0.87388] },
+    { pBar: 60,  tC:  16.85, expected: [0.88007, 0.87500, 0.84553, 0.91507, 0.87003, 0.89071] },
+    { pBar: 60,  tC:  36.85, expected: [0.90881, 0.90491, 0.88223, 0.93684, 0.90124, 0.91736] },
+    { pBar: 60,  tC:  56.85, expected: [0.92996, 0.92690, 0.90893, 0.95302, 0.92394, 0.93690] },
+    { pBar: 120, tC:  -3.15, expected: [0.72146, 0.71140, 0.64322, 0.80843, 0.69557, 0.74939] },
+    { pBar: 120, tC:   6.85, expected: [0.75969, 0.75079, 0.69062, 0.83613, 0.73828, 0.78473] },
+    { pBar: 120, tC:  16.85, expected: [0.79257, 0.78472, 0.73196, 0.85999, 0.77463, 0.81490] },
+    { pBar: 120, tC:  36.85, expected: [0.84492, 0.83877, 0.79778, 0.89827, 0.83166, 0.86266] },
+    { pBar: 120, tC:  56.85, expected: [0.88322, 0.87832, 0.84554, 0.92662, 0.87269, 0.89749] },
+  ];
+
+  const TOL = 5e-4;
+
+  function runSGERGValidationTests() {
+    let results = '';
+    testCasesSGERG.forEach(({ pBar, tC, expected }, idx) => {
+      results += `Test ${idx + 1}:  T = ${tC} °C,  P = ${pBar} bar\n`;
+      expected.forEach((zRef, i) => {
+        const { xCO2, xH2, RM, HS } = gasParams[i];
+        try {
+          const { Z } = sgerg(xCO2, HS, RM, xH2, pBar, tC);
+          const err  = Math.abs(Z - zRef);
+          const pass = err < TOL ? '✅' : '❌';
+          results += `  Gas ${i + 1}:  Z = ${Z.toFixed(5)}  | Ref = ${zRef.toFixed(5)}  | Δ = ${err.toFixed(5)} ${pass}\n`;
+        } catch (e) {
+          results += `  Gas ${i + 1}:  Error – ${e.message} ❌\n`;
+        }
+      });
+      results += '\n';
+    });
+    document.getElementById('validationResults').textContent = results;
+  }
+
+  window.addEventListener('DOMContentLoaded', runSGERGValidationTests);
+  </script>
+
+</body>
+</html>

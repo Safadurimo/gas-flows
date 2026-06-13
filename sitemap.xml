@@ -28,6 +28,15 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gas-flows.com/aga8.html"/>
   </url>
 
+  <!-- SGERG -->
+  <url>
+    <loc>https://gas-flows.com/sgerg.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gas-flows.com/sgerg.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://gas-flows.com/de/sgerg.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://gas-flows.com/ru/sgerg.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gas-flows.com/sgerg.html"/>
+  </url>
+
   <!-- AGA8 Flow -->
   <url>
     <loc>https://gas-flows.com/AGA8Flow.html</loc>

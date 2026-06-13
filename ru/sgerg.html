@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <!-- Google tag (gtag.js) with consent -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYJRPRS3TW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    // Set default consent state
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied'
+    });
+
+    gtag('js', new Date());
+    gtag('config', 'G-MYJRPRS3TW');
+  </script>
+  <meta charset="utf-8">
+  <title>Калькулятор SGERG</title>
+  <link rel="canonical" href="https://gas-flows.com/ru/sgerg.html">
+  <meta name="description" content="Калькулятор коэффициента сжимаемости SGERG для природного газа.">
+  <link rel="apple-touch-icon" sizes="57x57" href="../icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="../icons/apple-icon-60x60.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="36x36" href="../icons/android-icon-36x36.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../icons/android-icon-48x48.png">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="stylesheet" href="../common.css">
+  <script src="../js/lang.js"></script>
+  <script src="../js/sgerg.js"></script>
+</head>
+
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Калькулятор расхода</a></li>
+      <li><a href="pressures.html">Конвертер единиц</a></li>
+      <li><a href="aga8.html">AGA8 Z-Фактор</a></li>
+      <li><a href="sgerg.html" class="active">SGERG</a></li>
+      <li><a href="AGA8Flow.html">AGA8 Расход</a></li>
+      <li><a href="simulator.html">Газовый симулятор</a></li>
+      <li><a href="contacts.html">Контакты</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h2>Калькулятор коэффициента сжимаемости SGERG&#8209;88</h2>
+
+    <div class="field-group">
+      <label for="temperature">Температура (°C):</label>
+      <input type="number" id="temperature" value="20" step="1">
+      <span>Температура газа</span>
+    </div>
+
+    <div class="field-group">
+      <label for="pressure">Давление (барА):</label>
+      <input type="number" id="pressure" value="50" step="1">
+      <span>Рабочее давление</span>
+    </div>
+
+    <div class="field-group">
+      <label for="Hs">Теплота сгорания H&#x209B; (кВт·ч/м³):</label>
+      <input type="number" id="Hs" value="10.55" step="0.01">
+      <span>Теплота сгорания при нормальных условиях (0 °C, 1,01325 бар)</span>
+    </div>
+
+    <div class="field-group">
+      <label for="rhoN">Плотность при нормальных условиях (кг/м³):</label>
+      <input type="number" id="rhoN" value="0.760" step="0.001">
+      <span>Плотность газа при нормальных условиях (0 °C, 1,01325 бар)</span>
+    </div>
+
+    <div class="field-group">
+      <label for="xH2">Содержание H₂ (моль/моль):</label>
+      <input type="number" id="xH2" value="0.0" step="0.001" min="0" max="1">
+      <span>Мольная доля водорода</span>
+    </div>
+
+    <div class="field-group">
+      <label for="xCO2">Содержание CO₂ (моль/моль):</label>
+      <input type="number" id="xCO2" value="0.006" step="0.001" min="0" max="1">
+      <span>Мольная доля диоксида углерода</span>
+    </div>
+
+    <h2>Результаты</h2>
+
+    <div class="field-group">
+      <label for="zResult">Z-фактор:</label>
+      <input type="text" id="zResult" readonly>
+      <span>Коэффициент сжимаемости</span>
+    </div>
+
+    <div class="field-group">
+      <label for="kResult">K-фактор (нем. Kompressibilitätszahl):</label>
+      <input type="text" id="kResult" readonly>
+      <span>K = Z / Zₙ (Zₙ при немецких нормальных условиях: 0 °C, 1,01325 бар)</span>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="field-group">
+      <p><strong>SGERG-88: описание метода</strong><br>
+      SGERG-88 (Simplified GERG) — упрощённое уравнение состояния для вычисления коэффициента сжимаемости (Z&#8209;фактора)
+      природного газа по четырём измеримым параметрам: теплота сгорания (H&#x209B;), относительная плотность,
+      содержание водорода и содержание диоксида углерода. В отличие от полного метода AGA8, детальный
+      газохроматографический анализ состава не требуется, что делает метод удобным для расчётов при
+      коммерческом учёте газа.<br><br>
+
+      В Германии SGERG-88 является основой для расчёта коэффициента сжимаемости при расчётах (Abrechnungszustandszahl K)
+      согласно DVGW Arbeitsblatt G&nbsp;685.<br><br>
+
+      <strong>Область применения SGERG-88:</strong><br>
+      Давление: 0 МПа до 12 МПа (0 до 120 бар)<br>
+      Температура: 263 К до 338 К (&#x2212;10&nbsp;°C до 65&nbsp;°C)<br>
+      Теплота сгорания: 30 МДж/м³ до 45 МДж/м³ (&#x2248;&nbsp;8,3 до 12,5 кВт·ч/м³)<br>
+      Относительная плотность: 0,55 до 0,80<br>
+      Содержание H&#x2082;: 0 до 0,10 моль/моль<br>
+      Содержание CO&#x2082;: 0 до 0,20 моль/моль<br><br>
+
+      <strong>Источники:</strong><br>
+      <a href="https://www.iso.org/standard/44412.html" target="_blank" class="modern-link">ISO 12213-3:1997 Природный газ — Расчёт коэффициента сжимаемости — Часть 3 (платно)</a><br>
+      <a href="https://www.dvgw-regelwerk.de/technische-regel/arbeitsblatt-g-685-6/4e710c" target="_blank" class="modern-link">DVGW Arbeitsblatt G 685-6 — Abrechnungsbrennwert und Abrechnungszustandszahl (нем.)</a><br>
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <label>Результаты валидации:</label>
+    <pre id="validationResults" style="background:#f9f9f9;padding:10px;border:1px solid #ccc;max-height:120px;overflow:auto;"></pre>
+  </div>
+
+  <script>
+  const RL_AIR = 1.292923;
+
+  function calculateSGERG() {
+    const TC     = parseFloat(document.getElementById('temperature').value);
+    const P      = parseFloat(document.getElementById('pressure').value);
+    const Hs_kWh = parseFloat(document.getElementById('Hs').value);
+    const rhoN   = parseFloat(document.getElementById('rhoN').value);
+    const X5     = parseFloat(document.getElementById('xH2').value)  || 0;
+    const X3     = parseFloat(document.getElementById('xCO2').value) || 0;
+
+    const zField = document.getElementById('zResult');
+    const kField = document.getElementById('kResult');
+
+    const HS = Hs_kWh * 3.6;
+    const RM = rhoN / RL_AIR;
+
+    try {
+      const { Z } = sgerg(X3, HS, RM, X5, P, TC);
+      zField.value = Z.toFixed(5);
+
+      const { Z: Znorm } = sgerg(X3, HS, RM, X5, 1.01325, 0.0);
+      kField.value = (Z / Znorm).toFixed(5);
+    } catch (err) {
+      zField.value = `Ошибка: ${err.message} ❌`;
+      kField.value = '';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    calculateSGERG();
+    document.querySelectorAll('#temperature, #pressure, #Hs, #rhoN, #xH2, #xCO2')
+      .forEach(el => el.addEventListener('input', calculateSGERG));
+  });
+
+  /* --- ISO 12213-3 Приложение B – шесть эталонных газовых смесей ---------- */
+  /* HS в МДж/м³, RM = относительная плотность (безразмерная)               */
+  const gasParams = [
+    { xCO2: 0.006, xH2: 0.000, RM: 0.581, HS: 40.66 },  // Gas 1
+    { xCO2: 0.005, xH2: 0.000, RM: 0.609, HS: 40.62 },  // Gas 2
+    { xCO2: 0.015, xH2: 0.000, RM: 0.650, HS: 43.53 },  // Gas 3
+    { xCO2: 0.016, xH2: 0.095, RM: 0.599, HS: 34.16 },  // Gas 4
+    { xCO2: 0.076, xH2: 0.000, RM: 0.686, HS: 36.64 },  // Gas 5
+    { xCO2: 0.011, xH2: 0.000, RM: 0.644, HS: 36.58 },  // Gas 6
+  ];
+
+  const testCasesSGERG = [
+    { pBar: 60,  tC:  -3.15, expected: [0.84084, 0.83348, 0.79415, 0.88569, 0.82664, 0.85406] },
+    { pBar: 60,  tC:   6.85, expected: [0.86202, 0.85615, 0.82210, 0.90150, 0.85017, 0.87388] },
+    { pBar: 60,  tC:  16.85, expected: [0.88007, 0.87500, 0.84553, 0.91507, 0.87003, 0.89071] },
+    { pBar: 60,  tC:  36.85, expected: [0.90881, 0.90491, 0.88223, 0.93684, 0.90124, 0.91736] },
+    { pBar: 60,  tC:  56.85, expected: [0.92996, 0.92690, 0.90893, 0.95302, 0.92394, 0.93690] },
+    { pBar: 120, tC:  -3.15, expected: [0.72146, 0.71140, 0.64322, 0.80843, 0.69557, 0.74939] },
+    { pBar: 120, tC:   6.85, expected: [0.75969, 0.75079, 0.69062, 0.83613, 0.73828, 0.78473] },
+    { pBar: 120, tC:  16.85, expected: [0.79257, 0.78472, 0.73196, 0.85999, 0.77463, 0.81490] },
+    { pBar: 120, tC:  36.85, expected: [0.84492, 0.83877, 0.79778, 0.89827, 0.83166, 0.86266] },
+    { pBar: 120, tC:  56.85, expected: [0.88322, 0.87832, 0.84554, 0.92662, 0.87269, 0.89749] },
+  ];
+
+  const TOL = 5e-4;
+
+  function runSGERGValidationTests() {
+    let results = '';
+    testCasesSGERG.forEach(({ pBar, tC, expected }, idx) => {
+      results += `Тест ${idx + 1}:  T = ${tC} °C,  P = ${pBar} бар\n`;
+      expected.forEach((zRef, i) => {
+        const { xCO2, xH2, RM, HS } = gasParams[i];
+        try {
+          const { Z } = sgerg(xCO2, HS, RM, xH2, pBar, tC);
+          const err  = Math.abs(Z - zRef);
+          const pass = err < TOL ? '✅' : '❌';
+          results += `  Газ ${i + 1}:  Z = ${Z.toFixed(5)}  | Ref = ${zRef.toFixed(5)}  | Δ = ${err.toFixed(5)} ${pass}\n`;
+        } catch (e) {
+          results += `  Газ ${i + 1}:  Ошибка – ${e.message} ❌\n`;
+        }
+      });
+      results += '\n';
+    });
+    document.getElementById('validationResults').textContent = results;
+  }
+
+  window.addEventListener('DOMContentLoaded', runSGERGValidationTests);
+  </script>
+
+</body>
+</html>
