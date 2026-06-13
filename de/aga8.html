@@ -212,6 +212,12 @@
   <span>Berechnete Kompressibilität</span>
 </div>
 
+<div class="field-group">
+  <label for="kResult">Kompressibilitätszahl (K-Zahl):</label>
+  <input type="text" id="kResult" readonly>
+  <span>K = Z / Zₙ (Zₙ: Realgasfaktor bei deutschen Normbedingungen: 0 °C, 1,01325 bar)</span>
+</div>
+
   </div>
   
 
@@ -450,6 +456,7 @@ function calculateZ () {
 
     // result fields
     const zField       = document.getElementById('zResult');
+    const kField       = document.getElementById('kResult');
     const densityField = document.getElementById('densityResult');
     const massField    = document.getElementById('massDensityResult');
     const relField     = document.getElementById('relativeResult');
@@ -471,6 +478,7 @@ function calculateZ () {
 
     if (Math.abs(moleSum - 1) > tol) {
       zField.value = '';
+      kField.value = '';
       densityField.value = massField.value = relField.value = baseField.value = '';
       if (window.zChart instanceof Chart) window.zChart.destroy();
       return;
@@ -498,9 +506,16 @@ function calculateZ () {
       const rhoBase = Dbase * M_mix; // kg·m⁻³
       baseField.value = rhoBase.toFixed(3);
 
+      /* ── Gas law deviation factor (german: Kompressibilitätszahl (K-Zahl)) ── */
+      const Tnorm = 273.15;          // 0 °C in K
+      const Pnorm = 0.101325;        // 1,01325 bar = 0,101325 MPa
+      const { Z: Znorm } = compressibilityFactor(xj, Tnorm, Pnorm);
+      kField.value = (Z / Znorm).toFixed(5);
+
       updateZChart(xj, T);
     } catch (err) {
       zField.value = `Error: ${err.message} ❌`;
+      kField.value = '';
       densityField.value = massField.value = relField.value = baseField.value = '';
       if (window.zChart instanceof Chart) window.zChart.destroy();
     }
