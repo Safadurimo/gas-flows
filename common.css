@@ -145,6 +145,22 @@ nav a:hover {
   background-color: #f0f0f0;
 }
 
+#gasSelect {
+  margin-right: 2px;
+  margin-left: 8px;
+  padding: 5px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  color: #333;
+}
+
+#gasSelect:hover {
+  background-color: #f0f0f0;
+}
+
 .controlButton.active {
   background-color: #4CAF50;
   color: white;

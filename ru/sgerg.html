@@ -28,6 +28,7 @@
   <link rel="manifest" href="../manifest.json">
   <link rel="stylesheet" href="../common.css">
   <script src="../js/lang.js"></script>
+  <script src="../js/iso-gases.js"></script>
   <script src="../js/sgerg.js"></script>
 </head>
 
@@ -44,6 +45,18 @@
       <li><a href="contacts.html">Контакты</a></li>
     </ul>
   </nav>
+
+  <div id="controls" style="margin-bottom: 16px;">
+    <select id="gasSelect">
+      <option value="">-- Загрузить эталонный газ ISO --</option>
+      <option value="0">Gas 1</option>
+      <option value="1">Gas 2</option>
+      <option value="2">Gas 3</option>
+      <option value="3">Gas 4</option>
+      <option value="4">Gas 5</option>
+      <option value="5">Gas 6</option>
+    </select>
+  </div>
 
   <div class="container">
     <h2>Калькулятор коэффициента сжимаемости SGERG&#8209;88</h2>
@@ -167,33 +180,12 @@
       .forEach(el => el.addEventListener('input', calculateSGERG));
   });
 
-  /* --- ISO 12213-3 Приложение B – шесть эталонных газовых смесей ---------- */
-  /* HS в МДж/м³, RM = относительная плотность (безразмерная)               */
-  const gasParams = [
-    { xCO2: 0.006, xH2: 0.000, RM: 0.581, HS: 40.66 },  // Gas 1
-    { xCO2: 0.005, xH2: 0.000, RM: 0.609, HS: 40.62 },  // Gas 2
-    { xCO2: 0.015, xH2: 0.000, RM: 0.650, HS: 43.53 },  // Gas 3
-    { xCO2: 0.016, xH2: 0.095, RM: 0.599, HS: 34.16 },  // Gas 4
-    { xCO2: 0.076, xH2: 0.000, RM: 0.686, HS: 36.64 },  // Gas 5
-    { xCO2: 0.011, xH2: 0.000, RM: 0.644, HS: 36.58 },  // Gas 6
-  ];
-
-  const testCasesSGERG = [
-    { pBar: 60,  tC:  -3.15, expected: [0.84084, 0.83348, 0.79415, 0.88569, 0.82664, 0.85406] },
-    { pBar: 60,  tC:   6.85, expected: [0.86202, 0.85615, 0.82210, 0.90150, 0.85017, 0.87388] },
-    { pBar: 60,  tC:  16.85, expected: [0.88007, 0.87500, 0.84553, 0.91507, 0.87003, 0.89071] },
-    { pBar: 60,  tC:  36.85, expected: [0.90881, 0.90491, 0.88223, 0.93684, 0.90124, 0.91736] },
-    { pBar: 60,  tC:  56.85, expected: [0.92996, 0.92690, 0.90893, 0.95302, 0.92394, 0.93690] },
-    { pBar: 120, tC:  -3.15, expected: [0.72146, 0.71140, 0.64322, 0.80843, 0.69557, 0.74939] },
-    { pBar: 120, tC:   6.85, expected: [0.75969, 0.75079, 0.69062, 0.83613, 0.73828, 0.78473] },
-    { pBar: 120, tC:  16.85, expected: [0.79257, 0.78472, 0.73196, 0.85999, 0.77463, 0.81490] },
-    { pBar: 120, tC:  36.85, expected: [0.84492, 0.83877, 0.79778, 0.89827, 0.83166, 0.86266] },
-    { pBar: 120, tC:  56.85, expected: [0.88322, 0.87832, 0.84554, 0.92662, 0.87269, 0.89749] },
-  ];
-
+  /* --- ISO 12213-3 Приложение B – Референсные газовые смеси (из iso-gases.js) */
   const TOL = 5e-4;
 
   function runSGERGValidationTests() {
+    const gasParams = ISO_GASES.map(g => ({ xCO2: g.xCO2, xH2: g.xH2, RM: g.RM, HS: g.HS }));
+    const testCasesSGERG = ISO_SGERG_TEST_CASES;
     let results = '';
     testCasesSGERG.forEach(({ pBar, tC, expected }, idx) => {
       results += `Тест ${idx + 1}:  T = ${tC} °C,  P = ${pBar} бар\n`;
@@ -214,6 +206,18 @@
   }
 
   window.addEventListener('DOMContentLoaded', runSGERGValidationTests);
+
+  document.getElementById('gasSelect').addEventListener('change', () => {
+    const idx = document.getElementById('gasSelect').value;
+    if (idx === '') return;
+    const g = ISO_GASES[+idx];
+    document.getElementById('Hs').value   = (g.HS / 3.6).toFixed(2);
+    document.getElementById('rhoN').value = (g.RM * RL_AIR).toFixed(3);
+    document.getElementById('xH2').value  = g.xH2;
+    document.getElementById('xCO2').value = g.xCO2;
+    calculateSGERG();
+    document.getElementById('gasSelect').value = '';
+  });
   </script>
 
 </body>
