@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <!-- Google tag (gtag.js) with consent -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYJRPRS3TW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    // Set default consent state
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied'
+    });
+
+    gtag('js', new Date());
+    gtag('config', 'G-MYJRPRS3TW');
+  </script>
+  <meta charset="utf-8">
+  <title>SGERG-mod-H2 Rechner</title>
+  <link rel="canonical" href="https://gas-flows.com/de/sgergmodh2.html">
+  <meta name="description" content="SGERG-mod-H2 Kompressibilitätsfaktor-Rechner für wasserstoffbeimischtes Erdgas gemäß DVGW G 685-6.">
+  <link rel="apple-touch-icon" sizes="57x57" href="../icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="../icons/apple-icon-60x60.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="36x36" href="../icons/android-icon-36x36.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../icons/android-icon-48x48.png">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="stylesheet" href="../common.css">
+  <script src="../js/lang.js"></script>
+  <script src="../js/iso-gases.js"></script>
+  <script src="../js/sgergmodh2.js"></script>
+</head>
+
+<body>
+
+  <nav></nav>
+
+  <div id="controls" style="margin-bottom: 16px;">
+    <select id="gasSelect">
+      <option value="">-- Referenzgas aus ISO laden --</option>
+      <option value="0">Gas 1</option>
+      <option value="1">Gas 2</option>
+      <option value="2">Gas 3</option>
+      <option value="3">Gas 4</option>
+      <option value="4">Gas 5</option>
+      <option value="5">Gas 6</option>
+    </select>
+  </div>
+
+  <div class="container">
+    <h2>SGERG&#8209;mod&#8209;H2 Kompressibilitätsfaktor&#8209;Rechner</h2>
+
+    <div class="field-group">
+      <label for="temperature">Temperatur (°C):</label>
+      <input type="number" id="temperature" value="20" step="1">
+      <span>Gastemperatur</span>
+    </div>
+
+    <div class="field-group">
+      <label for="pressure">Druck (barA):</label>
+      <input type="number" id="pressure" value="50" step="1">
+      <span>Betriebsdruck</span>
+    </div>
+
+    <div class="field-group">
+      <label for="Hs">Brennwert H&#x209B; (kWh/m³):</label>
+      <input type="number" id="Hs" value="10.55" step="0.01">
+      <span>Brennwert bei Normbedingungen (0 °C, 1,01325 bar)</span>
+    </div>
+
+    <div class="field-group">
+      <label for="rhoN">Dichte im Normzustand (kg/m³):</label>
+      <input type="number" id="rhoN" value="0.760" step="0.001">
+      <span>Gasdichte bei Normbedingungen (0 °C, 1,01325 bar)</span>
+    </div>
+
+    <div class="field-group">
+      <label for="xH2">H₂&#8209;Anteil (mol/mol):</label>
+      <input type="number" id="xH2" value="0.0" step="0.001" min="0" max="1">
+      <span>Wasserstoffanteil als Stoffmengenanteil (0 bis 0,30 gemäß DVGW G 685-6)</span>
+    </div>
+
+    <div class="field-group">
+      <label for="xCO2">CO₂&#8209;Anteil (mol/mol):</label>
+      <input type="number" id="xCO2" value="0.006" step="0.001" min="0" max="1">
+      <span>Kohlendioxidanteil als Stoffmengenanteil</span>
+    </div>
+
+    <h2>Ergebnisse</h2>
+
+    <div class="field-group">
+      <label for="zResult">Z&#8209;Zahl:</label>
+      <input type="text" id="zResult" readonly>
+      <span>Realgasfaktor</span>
+    </div>
+
+    <div class="field-group">
+      <label for="kResult">Kompressibilitätszahl (K&#8209;Zahl):</label>
+      <input type="text" id="kResult" readonly>
+      <span>K = Z / Zₙ (Zₙ bei deutschen Normbedingungen: 0 °C, 1,01325 bar)</span>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="field-group">
+      <p><strong>SGERG-mod-H2 Details</strong><br>
+      SGERG&#8209;mod&#8209;H2 ist eine Modifikation von SGERG&#8209;88 (ISO 12213&#8209;3) für wasserstoffbeimischtes Erdgas,
+      entwickelt von DVGW und DBI Gastechnologisches Institut. Die historische CO&#8209;Kopplung
+      (bei der der CO&#8209;Anteil über die Stadtgas&#8209;Beziehung X<sub>CO</sub> = 0,0964·X<sub>H₂</sub> abgeleitet wurde)
+      wird entfernt. Dadurch erweitert sich der Gültigkeitsbereich auf Gase mit bis zu 30 mol% Wasserstoff und
+      einer relativen Dichte von mindestens 0,06.<br><br>
+
+      SGERG&#8209;mod&#8209;H2 ist nach <strong>DVGW Arbeitsblatt G&nbsp;685&#8209;6 (A) August 2024</strong>
+      für die Berechnung der Abrechnungszustandszahl K vorgeschrieben, wenn der Wasserstoffanteil
+      10 mol% überschreitet.<br><br>
+
+      <strong>Anwendungsgrenzen SGERG-mod-H2 (DVGW G 685-6, Tabelle B.4):</strong><br>
+      Druck: 0 MPa bis 12 MPa (0 bis 120 bar; &gt; 2,6 MPa nicht mehr Stand der Technik)<br>
+      Temperatur: 263 K bis 338 K (&#x2212;10&nbsp;°C bis 65&nbsp;°C)<br>
+      Brennwert: 6 MJ/m³ bis 45 MJ/m³ (&#x2248;&nbsp;1,7 bis 12,5 kWh/m³)<br>
+      Relative Dichte: 0,06 bis 0,80<br>
+      H&#x2082;&#8209;Anteil: 0 bis 0,30 mol/mol<br>
+      CO&#x2082;&#8209;Anteil: 0 bis 0,20 mol/mol (erweitert bis 0,30*)<br><br>
+
+      <strong>Quellen:</strong><br>
+      <a href="https://www.dvgw-regelwerk.de/technische-regel/arbeitsblatt-g-685-6/4e710c" target="_blank" class="modern-link">DVGW Arbeitsblatt G 685-6 (A) August 2024 — Abrechnungsbrennwert und Abrechnungszustandszahl</a><br>
+      <a href="https://www.dvgw.de/medien/dvgw/gas/infrastruktur/dvgw-pk-1-5-3-forschungsbericht-sgerg88-mod-h2-eng.pdf" target="_blank" class="modern-link">DVGW Forschungsbericht DBI GUT 0083H — SGERG-88-mod-H2 (englisch)</a><br>
+      <a href="https://www.iso.org/standard/44412.html" target="_blank" class="modern-link">ISO 12213-3:1997 Erdgas — Berechnung des Realgasfaktors — Teil 3 (Basisnorm, kostenpflichtig)</a><br>
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <label>Validierungsergebnisse (ISO 12213-3 Referenzgase):</label>
+    <pre id="validationResults" style="background:#f9f9f9;padding:10px;border:1px solid #ccc;max-height:120px;overflow:auto;"></pre>
+  </div>
+
+  <script>
+  const RL_AIR = 1.292923;
+
+  function calculateSGERG() {
+    const TC     = parseFloat(document.getElementById('temperature').value);
+    const P      = parseFloat(document.getElementById('pressure').value);
+    const Hs_kWh = parseFloat(document.getElementById('Hs').value);
+    const rhoN   = parseFloat(document.getElementById('rhoN').value);
+    const X5     = parseFloat(document.getElementById('xH2').value)  || 0;
+    const X3     = parseFloat(document.getElementById('xCO2').value) || 0;
+
+    const zField = document.getElementById('zResult');
+    const kField = document.getElementById('kResult');
+
+    const HS = Hs_kWh * 3.6;
+    const RM = rhoN / RL_AIR;
+
+    try {
+      const { Z } = sgergmodh2(X3, HS, RM, X5, P, TC);
+      zField.value = Z.toFixed(5);
+
+      const { Z: Znorm } = sgergmodh2(X3, HS, RM, X5, 1.01325, 0.0);
+      kField.value = (Z / Znorm).toFixed(5);
+    } catch (err) {
+      zField.value = `Fehler: ${err.message} ❌`;
+      kField.value = '';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    calculateSGERG();
+    document.querySelectorAll('#temperature, #pressure, #Hs, #rhoN, #xH2, #xCO2')
+      .forEach(el => el.addEventListener('input', calculateSGERG));
+  });
+
+  const TOL = 5e-4;
+
+  function runSGERGValidationTests() {
+    const gasParams = ISO_GASES.map(g => ({ xCO2: g.xCO2, xH2: g.xH2, RM: g.RM, HS: g.HS }));
+    const testCasesSGERG = ISO_SGERG_TEST_CASES;
+    let results = '';
+    testCasesSGERG.forEach(({ pBar, tC, expected }, idx) => {
+      results += `Test ${idx + 1}:  T = ${tC} °C,  P = ${pBar} bar\n`;
+      expected.forEach((zRef, i) => {
+        const { xCO2, xH2, RM, HS } = gasParams[i];
+        try {
+          const { Z } = sgergmodh2(xCO2, HS, RM, xH2, pBar, tC);
+          const err  = Math.abs(Z - zRef);
+          const pass = err < TOL ? '✅' : '⚠️';
+          results += `  Gas ${i + 1}:  Z = ${Z.toFixed(5)}  | Ref = ${zRef.toFixed(5)}  | Δ = ${err.toFixed(5)} ${pass}\n`;
+        } catch (e) {
+          results += `  Gas ${i + 1}:  Fehler – ${e.message} ❌\n`;
+        }
+      });
+      results += '\n';
+    });
+    document.getElementById('validationResults').textContent = results;
+  }
+
+  window.addEventListener('DOMContentLoaded', runSGERGValidationTests);
+
+  document.getElementById('gasSelect').addEventListener('change', () => {
+    const idx = document.getElementById('gasSelect').value;
+    if (idx === '') return;
+    const g = ISO_GASES[+idx];
+    document.getElementById('Hs').value   = (g.HS / 3.6).toFixed(2);
+    document.getElementById('rhoN').value = (g.RM * RL_AIR).toFixed(3);
+    document.getElementById('xH2').value  = g.xH2;
+    document.getElementById('xCO2').value = g.xCO2;
+    calculateSGERG();
+    document.getElementById('gasSelect').value = '';
+  });
+  </script>
+
+</body>
+</html>

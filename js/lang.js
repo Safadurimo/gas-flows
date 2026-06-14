@@ -109,13 +109,14 @@
     }
 
     var NAV_ITEMS = [
-        { file: 'index.html',     en: 'Flow Calculator',  de: 'Durchflussrechner',  ru: 'Калькулятор расхода' },
-        { file: 'pressures.html', en: 'Units Converter',  de: 'Einheitenumrechner', ru: 'Конвертер единиц'    },
-        { file: 'aga8.html',      en: 'AGA8 Z-Factor',    de: 'AGA8 Z‑Faktor', ru: 'AGA8 Z-Фактор'      },
-        { file: 'sgerg.html',     en: 'SGERG',            de: 'SGERG',              ru: 'SGERG'               },
-        { file: 'AGA8Flow.html',  en: 'AGA8 Flow',        de: 'AGA8 Durchfluss',    ru: 'AGA8 Расход'         },
-        { file: 'simulator.html', en: 'Gas Simulator',    de: 'Gassimulator',       ru: 'Газовый симулятор'   },
-        { file: 'contacts.html',  en: 'Contacts',         de: 'Kontakt',            ru: 'Контакты'            },
+        { file: 'index.html',        en: 'Flow Calculator',  de: 'Durchflussrechner',  ru: 'Калькулятор расхода' },
+        { file: 'pressures.html',    en: 'Units Converter',  de: 'Einheitenumrechner', ru: 'Конвертер единиц'    },
+        { file: 'aga8.html',         en: 'AGA8 Z-Factor',    de: 'AGA8 Z‑Faktor',      ru: 'AGA8 Z-Фактор'      },
+        { file: 'sgerg.html',        en: 'SGERG',            de: 'SGERG',              ru: 'SGERG'               },
+        { file: 'sgergmodh2.html',   en: 'SGERG-mod-H2',     de: 'SGERG-mod-H2',       ru: 'SGERG-mod-H2'        },
+        { file: 'AGA8Flow.html',     en: 'AGA8 Flow',        de: 'AGA8 Durchfluss',    ru: 'AGA8 Расход'         },
+        { file: 'simulator.html',    en: 'Gas Simulator',    de: 'Gassimulator',       ru: 'Газовый симулятор'   },
+        { file: 'contacts.html',     en: 'Contacts',         de: 'Kontakt',            ru: 'Контакты'            },
     ];
 
     function injectNav(currentLang) {
