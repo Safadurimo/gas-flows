@@ -108,6 +108,34 @@
         head.appendChild(xdef);
     }
 
+    var NAV_ITEMS = [
+        { file: 'index.html',     en: 'Flow Calculator',  de: 'Durchflussrechner',  ru: 'Калькулятор расхода' },
+        { file: 'pressures.html', en: 'Units Converter',  de: 'Einheitenumrechner', ru: 'Конвертер единиц'    },
+        { file: 'aga8.html',      en: 'AGA8 Z-Factor',    de: 'AGA8 Z‑Faktor', ru: 'AGA8 Z-Фактор'      },
+        { file: 'sgerg.html',     en: 'SGERG',            de: 'SGERG',              ru: 'SGERG'               },
+        { file: 'AGA8Flow.html',  en: 'AGA8 Flow',        de: 'AGA8 Durchfluss',    ru: 'AGA8 Расход'         },
+        { file: 'simulator.html', en: 'Gas Simulator',    de: 'Gassimulator',       ru: 'Газовый симулятор'   },
+        { file: 'contacts.html',  en: 'Contacts',         de: 'Kontakt',            ru: 'Контакты'            },
+    ];
+
+    function injectNav(currentLang) {
+        var nav = document.querySelector('nav');
+        if (!nav) return;
+        var currentFile = getNormalizedFilenameFromPath(window.location.pathname);
+        var ul = document.createElement('ul');
+        NAV_ITEMS.forEach(function(item) {
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.setAttribute('href', item.file);
+            a.textContent = item[currentLang] || item.en;
+            if (currentFile === item.file) a.className = 'active';
+            li.appendChild(a);
+            ul.appendChild(li);
+        });
+        nav.innerHTML = '';
+        nav.appendChild(ul);
+    }
+
     function rewriteInternalLinks(currentLang) {
         // Do not rewrite links for file:// local browsing to preserve relative paths
         if (window.location.protocol === 'file:') return;
@@ -193,6 +221,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         var currentLang = detectLangFromPath(window.location.pathname);
         ensureCanonicalAndAlternates();
+        injectNav(currentLang);
         injectCornerDropdown(currentLang);
         rewriteInternalLinks(currentLang);
     });
